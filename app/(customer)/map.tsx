@@ -27,8 +27,8 @@ export default function MapScreen() {
 
   const fetchMechanics = async (lat: number, lng: number) => {
     const res = await fetch(
-      `http://10.220.202.23/api/mechanics/nearby?latitude=${lat}&longitude=${lng}`
-    );
+  `https://mechanic-finder-backend.onrender.com/api/mechanics/nearby?latitude=${lat}&longitude=${lng}`
+);
 
     const data = await res.json();
     setMechanics(data.mechanics || []);
