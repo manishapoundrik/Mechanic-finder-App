@@ -3,7 +3,7 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
 
 export function getApiUrl(): string {
-  return "https://your-backend.onrender.com";
+  return "https://mechanic-finder-backend.onrender.com";
 }
 
 async function throwIfResNotOk(res: Response) {
