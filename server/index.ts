@@ -37,8 +37,7 @@ const isLocalhost =
   origin?.startsWith("http://localhost:") ||
   origin?.startsWith("http://127.0.0.1:");
 
-const isProductionFrontend =
-  origin?.includes("your-frontend-domain.com");
+const isProductionFrontend = true;
 
    if (origin && (origins.has(origin) || isLocalhost || isProductionFrontend)){
       res.header("Access-Control-Allow-Origin", origin);
