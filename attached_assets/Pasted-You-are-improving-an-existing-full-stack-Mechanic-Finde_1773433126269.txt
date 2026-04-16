@@ -1,0 +1,286 @@
+You are improving an existing full-stack Mechanic Finder mobile application. The app already has authentication, location permission, mechanic browsing, and a MongoDB-ready backend. Now implement the following features to make the application production-ready.
+
+---
+
+1. GOOGLE PLACES API INTEGRATION
+
+---
+
+Remove the current seeded/dummy mechanic data and integrate Google Places API so that nearby mechanic shops are fetched dynamically.
+
+Requirements:
+
+• Use Google Places Nearby Search API
+• Search type: car_repair
+• Radius: 5000 meters (5 km)
+• Use the user’s current latitude and longitude
+
+Store the API key in environment variables.
+
+Example:
+
+.env
+
+GOOGLE_PLACES_API_KEY=YOUR_API_KEY
+
+Create a backend endpoint:
+
+GET /api/mechanics/nearby
+
+Functionality of this endpoint:
+
+1. Receive user latitude and longitude
+2. Call Google Places Nearby Search API
+3. Filter mechanic shops within 5 km
+4. Format the response and return mechanic shop details
+
+Returned fields should include:
+
+* shop name
+* place_id
+* rating
+* address
+* latitude
+* longitude
+* phone number (if available)
+* open status
+* photo reference if available
+
+---
+
+2. MECHANIC SHOP DETAILS SCREEN
+
+---
+
+When the user taps a mechanic shop from the list, open a new screen that shows detailed shop information.
+
+Display the following:
+
+• Shop Name
+• Rating
+• Address
+• Distance from user
+• Phone number
+• Shop photo
+• Open/Closed status
+
+Add buttons:
+
+• Call Shop
+• Get Directions
+• Request Mechanic
+
+---
+
+3. REQUEST MECHANIC SYSTEM
+
+---
+
+When the user clicks “Request Mechanic”, create a mechanic request.
+
+Backend endpoint:
+
+POST /api/request-mechanic
+
+Payload example:
+
+{
+user_id,
+shop_place_id,
+user_location,
+vehicle_type: "bike" or "car",
+request_status: "pending",
+timestamp
+}
+
+Save the request so that it can later be tracked.
+
+---
+
+4. MECHANIC ARRIVAL TRACKING SCREEN
+
+---
+
+After the mechanic request is created, open a tracking screen similar to ride-hailing apps (Uber style).
+
+The screen must contain a map view showing:
+
+• User location marker
+• Mechanic shop location marker
+• Route between them
+• Mechanic moving toward the user location
+
+Below the map display a status card containing:
+
+Mechanic Information:
+
+• mechanic name
+• shop name
+• phone number
+• rating
+
+Trip Information:
+
+• estimated arrival time
+• distance remaining
+• request status
+
+Buttons:
+
+• Call Mechanic
+• Cancel Request
+
+---
+
+5. LIVE TRACKING SYSTEM
+
+---
+
+Implement real-time tracking so the mechanic position updates on the screen.
+
+Preferred method:
+
+Socket.io
+
+Alternative:
+
+poll the backend every 5 seconds.
+
+Create an endpoint:
+
+GET /api/request-status/{request_id}
+
+Return:
+
+{
+mechanic_location,
+estimated_arrival_time,
+distance_remaining,
+status
+}
+
+Update the map and UI dynamically.
+
+---
+
+6. UI DESIGN REQUIREMENTS
+
+---
+
+Follow a clean modern design.
+
+Color palette:
+
+• grey
+• dark grey
+• minimal accent colors
+
+Home screen layout:
+
+Top section:
+
+• greeting message
+• profile button
+
+Center section:
+
+• search bar
+• animation or illustration
+
+Bottom section:
+
+• list of nearby mechanic shops
+
+Ensure smooth animations and a clean user-friendly interface.
+
+---
+
+7. ARCHITECTURE REQUIREMENTS
+
+---
+
+Keep the project clean and scalable.
+
+Frontend:
+
+• follow MVVM architecture
+• separate API layer
+• separate repository layer
+
+Backend:
+
+• Express server
+• JWT authentication
+• controllers
+• services
+• storage layer
+• MongoDB ready
+
+Do not tightly couple database logic with controllers.
+
+---
+
+8. DATABASE STRUCTURE (MONGODB READY)
+
+---
+
+Users collection:
+
+id
+name
+email
+phone
+password
+
+Mechanics collection:
+
+id
+place_id
+name
+rating
+phone
+location
+status
+
+Requests collection:
+
+id
+user_id
+shop_place_id
+vehicle_type
+status
+mechanic_location
+created_at
+
+---
+
+9. ERROR HANDLING
+
+---
+
+Handle the following scenarios:
+
+• location permission denied
+• no mechanic shops found within 5 km
+• Google API failure
+• request cancelled
+• request timeout
+
+Display appropriate UI messages.
+
+---
+
+10. FINAL USER FLOW
+
+---
+
+1. User opens the app
+2. Location permission is requested
+3. Nearby mechanic shops appear from Google Places API
+4. User taps a shop to see details
+5. User clicks “Request Mechanic”
+6. Mechanic request is created
+7. Mechanic arrival tracking screen appears
+8. Map shows mechanic traveling toward the user location
+
+The final system should behave similar to an Uber-style mechanic service platform.

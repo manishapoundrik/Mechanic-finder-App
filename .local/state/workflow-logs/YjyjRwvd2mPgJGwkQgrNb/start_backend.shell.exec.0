@@ -1,0 +1,12 @@
+
+> expo-app@1.0.0 server:dev
+> NODE_ENV=development tsx server/index.ts
+
+[1G[0KServing static Expo files with dynamic manifest routing
+Expo routing: Checking expo-platform header on / and /manifest
+express server serving on port 5000
+POST /api/auth/register 201 in 152ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6I…
+GET /api/requests/active 200 in 73ms :: {"request":null}
+POST /api/auth/login 401 in 11ms :: {"message":"Invalid email or password"}
+POST /api/auth/register 201 in 108ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6I…
+GET /api/requests/mechanic/active 200 in 5ms :: {"request":null}

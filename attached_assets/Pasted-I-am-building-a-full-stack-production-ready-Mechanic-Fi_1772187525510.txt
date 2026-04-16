@@ -1,0 +1,368 @@
+I am building a full-stack, production-ready “Mechanic Finder” mobile application similar to Uber/Rapido-style real-time service matching.
+
+The tech stack is:
+
+Frontend:
+
+React Native (Expo)
+
+TypeScript
+
+Tailwind CSS (NativeWind)
+
+React Navigation
+
+Axios
+
+Socket.io-client
+
+Backend:
+
+Node.js
+
+Express
+
+TypeScript
+
+MongoDB (local database)
+
+Mongoose ODM
+
+Socket.io (real-time communication)
+
+JWT authentication
+
+The project structure already contains:
+
+app/
+
+components/
+
+lib/
+
+server/
+
+shared/
+
+drizzle.config.ts (ignore if unused)
+
+Expo configuration files
+
+I want this to be built as a scalable production-grade system, not a basic demo app.
+
+🎯 APP CONCEPT
+
+This is a two-sided marketplace:
+
+1️⃣ Customer App
+2️⃣ Mechanic App
+
+Both use the same backend but different roles.
+
+👤 CUSTOMER FLOW
+
+User signs up / logs in using JWT.
+
+User enables “Location while using app”.
+
+Home screen:
+
+Center animation: “Finding your mechanic…”
+
+Search bar at top for manual mechanic search.
+
+User taps “Request Mechanic”.
+
+Backend:
+
+Finds available mechanics within 5km using Haversine formula.
+
+Emits real-time request via Socket.io to nearby mechanics.
+
+First mechanic who accepts:
+
+Becomes assigned to the request.
+
+Customer receives:
+
+Mechanic name
+
+Phone number
+
+Rating
+
+Live location
+
+Google Map opens:
+
+Shows mechanic moving toward user.
+
+After service:
+
+Rating system
+
+Service history saved
+
+🔧 MECHANIC FLOW
+
+Mechanic registers with:
+
+Name
+
+Shop name
+
+Phone
+
+Location (GeoJSON)
+
+Working hours
+
+Mechanic can toggle:
+
+Available
+
+Busy
+
+Offline
+
+When nearby request comes:
+
+Popup with Accept / Reject
+
+If accepted:
+
+Live navigation to customer
+
+Update live location every few seconds
+
+🧠 BACKEND REQUIREMENTS
+
+Use clean scalable architecture:
+
+server/
+├── controllers/
+├── models/
+├── routes/
+├── services/
+├── middleware/
+├── sockets/
+├── utils/
+├── config/
+└── index.ts
+
+🗄 DATABASE DESIGN (MongoDB)
+
+Collections:
+
+Users
+
+_id
+
+name
+
+email
+
+password (hashed)
+
+role (CUSTOMER | MECHANIC)
+
+location (GeoJSON)
+
+createdAt
+
+Mechanics
+
+userId (ref User)
+
+shopName
+
+phone
+
+isAvailable
+
+rating
+
+totalJobs
+
+workingHours
+
+location (GeoJSON 2dsphere index)
+
+ServiceRequests
+
+customerId
+
+mechanicId
+
+status (PENDING | ACCEPTED | COMPLETED | CANCELLED)
+
+customerLocation
+
+mechanicLocation
+
+createdAt
+
+Ratings
+
+requestId
+
+customerId
+
+mechanicId
+
+rating
+
+review
+
+Create proper 2dsphere index for geo queries.
+
+📡 REAL-TIME SYSTEM
+
+Use Socket.io.
+
+Flow:
+
+Customer emits:
+"request_mechanic"
+
+Server:
+
+Finds mechanics within 5km
+
+Emits "new_request" to those mechanics
+
+Mechanic emits:
+"accept_request"
+
+Server:
+
+Assigns mechanic
+
+Emits "request_accepted" to customer
+
+Locks request
+
+Implement:
+
+Request timeout (30 seconds)
+
+Prevent double assignment
+
+Room-based socket handling
+
+🌍 GEO FEATURES
+
+Use MongoDB geo queries ($near with $geometry)
+
+Calculate exact 5km radius
+
+Store location as:
+{
+type: "Point",
+coordinates: [longitude, latitude]
+}
+
+🔐 SECURITY
+
+JWT authentication middleware
+
+Role-based route protection
+
+Hash passwords using bcrypt
+
+Validate inputs using zod or joi
+
+Use dotenv for environment variables
+
+📱 FRONTEND STRUCTURE (React Native)
+
+app/
+├── (auth)/
+│ ├── login.tsx
+│ └── signup.tsx
+├── (customer)/
+│ ├── home.tsx
+│ ├── request.tsx
+│ └── profile.tsx
+├── (mechanic)/
+│ ├── dashboard.tsx
+│ ├── jobs.tsx
+│ └── profile.tsx
+
+Use:
+
+Context API for auth state
+
+Axios interceptor for JWT
+
+Socket context provider
+
+NativeWind for grey/dark grey theme
+
+React Native Maps for live tracking
+
+🎨 UI DESIGN REQUIREMENTS
+
+Grey and dark grey color palette
+
+Smooth modern UI
+
+Center animation when searching
+
+Bottom tab navigation
+
+Clean profile screen
+
+Attractive cards for mechanic details
+
+Loading shimmer
+
+Toast notifications
+
+⚡ ADVANCED FEATURES
+
+In-app chat using Socket.io
+
+Push notifications (Expo Notifications)
+
+Service history screen
+
+Mechanic earnings tracking
+
+Admin dashboard ready (future scalable)
+
+🎯 OUTPUT EXPECTATION
+
+Generate:
+
+Complete folder structure
+
+MongoDB schema definitions
+
+Express route setup
+
+Socket.io setup
+
+Auth middleware
+
+Sample API endpoints
+
+React Native navigation setup
+
+Socket integration example
+
+Geo query example
+
+Clean scalable boilerplate code
+
+Do not generate toy examples. Generate production-grade architecture.
+
+🧠 What You’re Building Now
+
+This is not just “find nearby mechanic”.
+
+This is:
+
+A real-time geo-dispatch service platform.
+
+This is Uber architecture level (simplified).
