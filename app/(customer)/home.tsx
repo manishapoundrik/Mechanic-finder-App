@@ -226,7 +226,7 @@ export default function CustomerHomeScreen() {
 onPress={() => router.push('/(customer)/chat' as any)}
 >
   <Text style={{ color: "#fff", textAlign: "center" }}>
-    🤖 Ask AI Assistant
+    🤖 Ask Mechanic AI
   </Text>
 </TouchableOpacity>
         {/* </Animated.View> */}
