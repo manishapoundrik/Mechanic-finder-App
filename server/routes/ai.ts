@@ -7,36 +7,45 @@ router.post("/ask", async (req, res) => {
   const { question } = req.body;
 
   try {
-    const response = await fetch("https://api.openai.com/v1/responses", {
-  method: "POST",
-  headers: {
-    "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    model: "gpt-4o-mini",
-    input: `You are a helpful roadside mechanic assistant. ${question}`
-  })
-});
+    // 🔥 HUGGING FACE FREE API (Replace OpenAI completely)
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium",
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.HUGGINGFACE_API_KEY}`, // ← NEW ENV VAR
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          inputs: `Roadside Mechanic Assistant: ${question}\nAssistant:`, // ← Mechanic context
+          parameters: {
+            max_new_tokens: 150,
+            temperature: 0.7,
+            return_full_text: false,
+            truncation: true
+          }
+        })
+      }
+    );
 
-const data: any = await response.json();
+    const data: any = await response.json();
 
-console.log("FULL AI RESPONSE:", JSON.stringify(data, null, 2)); // 🔥 DEBUG
+    console.log("FULL HF RESPONSE:", JSON.stringify(data, null, 2)); // 🔥 DEBUG
 
-const reply =
-  data.output?.[0]?.content?.find((c: any) => c.type === "output_text")?.text ||
-  data.output_text ||
-  "No response";
-// if (data.error) {
-//   return res.json({
-//     reply: "Try checking fuel, battery, or find nearby mechanics using the app."
-//   });
-// }
-res.json({ reply });
+    // Extract response from HF format
+    const reply = 
+      data[0]?.generated_text || 
+      data.generated_text || 
+      "Try checking fuel, battery connections, or use the app to find nearby mechanics!";
+
+    res.json({ reply });
   } catch (error) {
-    res.status(500).json({ error: "AI error" });
+    console.error("HF AI Error:", error);
+    // Fallback response (no AI needed)
+    res.json({ 
+      reply: "Quick checks: 1) Fuel? 2) Battery? 3) Use app to find nearby mechanics!" 
+    });
   }
 });
-
 
 export default router;
