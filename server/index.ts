@@ -6,11 +6,13 @@ import type { Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import * as fs from "fs";
 import * as path from "path";
-
+import aiRoutes from "./routes/ai";
 
 const app = express();
+app.use(express.json());
 const log = console.log;
 
+app.use("/api/ai", aiRoutes);
 declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;

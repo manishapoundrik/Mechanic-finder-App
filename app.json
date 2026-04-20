@@ -16,12 +16,21 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.mechanicfinder",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAedZFL9LBsWFb5trAAWNiFYgXoLdOcjVM"
+      },
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "We need your location to find mechanics near you."
+        "NSLocationWhenInUseUsageDescription": "We need your location to find mechanics near you.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "package": "com.mechanicfinder",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAedZFL9LBsWFb5trAAWNiFYgXoLdOcjVM"
+        }
+      },
       "adaptiveIcon": {
         "backgroundColor": "#1A1A1A",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

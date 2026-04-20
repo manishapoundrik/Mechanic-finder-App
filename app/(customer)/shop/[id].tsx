@@ -185,8 +185,10 @@ export default function ShopDetailScreen() {
 
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: 120 }]}
-        showsVerticalScrollIndicator={false}
+       contentContainerStyle={[
+  styles.scrollContent,
+  { paddingBottom: insets.bottom + 200 }
+]}
       >
         <Animated.View entering={FadeIn.duration(500)}>
           {photoUri ? (

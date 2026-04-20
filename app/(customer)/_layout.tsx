@@ -31,55 +31,59 @@ function ClassicTabLayout() {
   const isIOS = Platform.OS === "ios";
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: Colors.dark.accent,
-        tabBarInactiveTintColor: Colors.dark.textMuted,
-        tabBarStyle: {
-          position: "absolute",
-          backgroundColor: isIOS ? "transparent" : Colors.dark.surface,
-          borderTopWidth: isWeb ? 1 : 0,
-          borderTopColor: Colors.dark.border,
-          elevation: 0,
-          ...(isWeb ? { height: 84 } : {}),
-        },
-        tabBarBackground: () =>
-          isIOS ? (
-            <BlurView intensity={100} tint="dark" style={StyleSheet.absoluteFill} />
-          ) : isWeb ? (
-            <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.dark.surface }]} />
-          ) : null,
-        tabBarLabelStyle: {
-          fontFamily: "Inter_500Medium",
-          fontSize: 11,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="home"
-        options={{
-          title: "Find",
-          tabBarIcon: ({ color, size }) => <Ionicons name="search" size={size} color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="history"
-        options={{
-          title: "History",
-          tabBarIcon: ({ color, size }) => <Ionicons name="time-outline" size={size} color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
-        }}
-      />
-      <Tabs.Screen name="request" options={{ href: null }} />
-      <Tabs.Screen name="shop/[id]" options={{ href: null }} />
-    </Tabs>
+   <Tabs
+  screenOptions={{
+    headerShown: false,
+    tabBarActiveTintColor: Colors.dark.accent,
+    tabBarInactiveTintColor: Colors.dark.textMuted,
+    tabBarStyle: {
+      position: "absolute",
+      backgroundColor: isIOS ? "transparent" : Colors.dark.surface,
+      borderTopWidth: isWeb ? 1 : 0,
+      borderTopColor: Colors.dark.border,
+      elevation: 0,
+      ...(isWeb ? { height: 84 } : {}),
+    },
+    tabBarBackground: () =>
+      isIOS ? (
+        <BlurView intensity={100} tint="dark" style={StyleSheet.absoluteFill} />
+      ) : isWeb ? (
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.dark.surface }]} />
+      ) : null,
+    tabBarLabelStyle: {
+      fontFamily: "Inter_500Medium",
+      fontSize: 11,
+    },
+  }}
+>
+  <Tabs.Screen
+    name="home"
+    options={{
+      title: "Find",
+      tabBarIcon: ({ color, size }) => <Ionicons name="search" size={size} color={color} />,
+    }}
+  />
+  <Tabs.Screen
+    name="history"
+    options={{
+      title: "History",
+      tabBarIcon: ({ color, size }) => <Ionicons name="time-outline" size={size} color={color} />,
+    }}
+  />
+  <Tabs.Screen
+    name="profile"
+    options={{
+      title: "Profile",
+      tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
+    }}
+  />
+
+  {/* HIDDEN SCREENS */}
+  <Tabs.Screen name="chat" options={{ href: null }} />
+  <Tabs.Screen name="request" options={{ href: null }} />
+  <Tabs.Screen name="shop/[id]" options={{ href: null }} />
+</Tabs>
+    
   );
 }
 

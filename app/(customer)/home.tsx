@@ -21,6 +21,7 @@ import { useAuth } from '@/lib/auth-context';
 import { useSocket } from '@/lib/socket-context';
 import { apiRequest, getApiUrl } from '@/lib/query-client';
 import { router } from 'expo-router';
+import { TouchableOpacity } from 'react-native';
 
 export interface MechanicItem {
   id: string;
@@ -195,23 +196,40 @@ export default function CustomerHomeScreen() {
           </Animated.View>
         )}
 
-        <Animated.View entering={FadeInDown.duration(500).delay(200)} style={styles.searchContainer}>
-          <View style={styles.searchWrapper}>
-            <Ionicons name="search" size={20} color={Colors.dark.textMuted} style={styles.searchIcon} />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search mechanics, services..."
-              placeholderTextColor={Colors.dark.textMuted}
-              value={search}
-              onChangeText={setSearch}
-            />
-            {search.length > 0 && (
-              <Pressable onPress={() => setSearch('')} style={styles.clearBtn}>
-                <Ionicons name="close-circle" size={20} color={Colors.dark.textMuted} />
-              </Pressable>
-            )}
+        {/* <Animated.View entering={FadeInDown.duration(500).delay(200)} style={styles.searchContainer}> */}
+         <View style={styles.searchContainer}>
+           <View style={styles.searchWrapper}>
+           <Ionicons name="search" size={20} color={Colors.dark.textMuted} style={styles.searchIcon} />
+
+    <TextInput
+      style={styles.searchInput}
+      placeholder="Search mechanics, services..."
+      placeholderTextColor={Colors.dark.textMuted}
+      value={search}
+      onChangeText={setSearch}
+    />
+
+    {search !== '' && (
+      <Pressable onPress={() => setSearch('')} style={styles.clearBtn}>
+        <Ionicons name="close-circle" size={20} color={Colors.dark.textMuted} />
+      </Pressable>
+    )}
+  </View>
           </View>
-        </Animated.View>
+          <TouchableOpacity
+  style={{
+    backgroundColor: "#f59e0b",
+    padding: 12,
+    borderRadius: 10,
+    margin: 10
+  }}
+onPress={() => router.push('/(customer)/chat' as any)}
+>
+  <Text style={{ color: "#fff", textAlign: "center" }}>
+    🤖 Ask AI Assistant
+  </Text>
+</TouchableOpacity>
+        {/* </Animated.View> */}
 
         {locationStatus === 'denied' && (
           <Animated.View entering={FadeInDown.duration(400).delay(300)} style={styles.permissionCard}>
