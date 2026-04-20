@@ -51,49 +51,68 @@ export default function AIPage() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
     >
-      <View style={{ flex: 1, backgroundColor: "#111", padding: 15 }}>
+      <View style={{ flex: 1, backgroundColor: "#111" }}>
         
-        {/* Header */}
-        <Text style={{
-          color: "#fff",
-          fontSize: 24,
-          fontWeight: "bold",
-          marginBottom: 15,
-          textAlign: "center"
-        }}>
-          AI Mechanic 🤖
-        </Text>
+     <View style={{
+  paddingVertical: 10,
+  borderBottomWidth: 1,
+  borderBottomColor: "#222",
+  marginBottom: 10
+}}>
+  <Text style={{
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+    textAlign: "center"
+  }}>
+    Mechanic AI
+  </Text>
+</View>
 
         {/* Messages Area - FLEX 1 = Takes remaining space */}
         <ScrollView
           ref={scrollViewRef}
-          style={{ flex: 1, marginBottom: 10 }} // ← flex: 1 + marginBottom
+          style={{ flex: 1 }} // ← flex: 1 + marginBottom
           contentContainerStyle={{ 
-            paddingBottom: 20,
+            paddingBottom: 80,
             flexGrow: 1 
           }}
           showsVerticalScrollIndicator={false}
-        >
-          {messages.length === 0 ? (
-            <View style={{ 
-              flex: 1, 
-              justifyContent: "center", 
-              alignItems: "center",
-              paddingVertical: 60 
-            }}>
-              <Text style={{ 
-                color: "#aaa", 
-                fontSize: 16, 
-                textAlign: "center",
-                lineHeight: 24
-              }}>
-                Ask about car problems like: {"\n"}
-                - "Car won't start" {"\n"}
-                - "Engine overheating" {"\n"}
-                - "Strange noise"
-              </Text>
-            </View>
-          ) : (
+        >{messages.length === 0 ? (
+  <View style={{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20
+  }}>
+    <Text style={{
+      color: "#fff",
+      fontSize: 20,
+      fontWeight: "600",
+      marginBottom: 10
+    }}>
+      🤖 AI Mechanic
+    </Text>
+
+    <Text style={{
+      color: "#aaa",
+      textAlign: "center",
+      lineHeight: 22
+    }}>
+      Ask anything about your vehicle problems:
+    </Text>
+
+    <Text style={{
+      color: "#666",
+      marginTop: 10,
+      textAlign: "center"
+    }}>
+      • Vehicle won't start{"\n"}
+      • Engine overheating{"\n"}
+      • Strange noise
+    </Text>
+  </View>
+) : (
             messages.map((msg, index) => (
               <View
                 key={index}
@@ -147,13 +166,12 @@ export default function AIPage() {
 
         {/* Input Area - FIXED at bottom */}
         <View style={{
-          flexDirection: "row",
-          paddingHorizontal: 5,
-          paddingVertical: 8,
-          backgroundColor: "#1a1a1a",
-          borderTopWidth: 1,
-          borderTopColor: "#333"
-        }}>
+  flexDirection: "row",
+  padding: 10,
+  backgroundColor: "#1a1a1a",
+  borderTopWidth: 1,
+  borderTopColor: "#333"
+}}>
           <TextInput
             value={question}
             onChangeText={setQuestion}
@@ -173,11 +191,13 @@ export default function AIPage() {
               maxHeight: 50 // ← Prevent expansion
             }}
             onSubmitEditing={askAI}
+            returnKeyType="send"
           />
           
           <TouchableOpacity
             onPress={askAI}
             disabled={loading || !question.trim()}
+            activeOpacity={0.7}
             style={{
               backgroundColor: loading || !question.trim() 
                 ? "#555" 
@@ -187,6 +207,7 @@ export default function AIPage() {
               borderRadius: 25,
               justifyContent: "center",
               minWidth: 70
+              
             }}
           >
             <Text style={{ 
